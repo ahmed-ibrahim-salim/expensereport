@@ -1,46 +1,29 @@
 import Foundation
 
+// 1- Hard dependency to test --> print to console ---> extract & override with a testable version
+// 2- Test will not be F.I.R.S.T ---> not repeatable ---> Date must be injected
+
+// 3- Code smells
 // switch case
 // magic numbers
 // primitive obsession
 
-enum ExpenseType {
-    case breakfast
-    case dinner
-    case carRental
-}
-
-struct Expense {
-    var type: ExpenseType
-    var amount: Int
-}
-
 class ExpenseReport {
-    func doSomethingWithExpenses(_ expense: Expense, _ mealExpenses: inout Int, _ total: inout Int) {
-        if expense.type == .dinner || expense.type == .breakfast {
-            mealExpenses += expense.amount
-        }
+    func printReport(expenses: [Expense], date: Date = Date()) {
+        printReportHeader(date: date)
 
-        var expenseName = ""
-        switch expense.type {
-        case .breakfast: expenseName = "Breakfast"
-        case .dinner: expenseName = "Dinner"
-        case .carRental: expenseName = "Car Rental"
-        }
+        expenses.forEach { print($0.getExpenseReport()) }
 
-        let mealOverExpensesMarker = expense.type == .dinner && expense.amount > 5000 || expense.type == .breakfast && expense.amount > 1000 ? "X" : " "
-        print("\(expenseName)\t\(expense.amount)\t\(mealOverExpensesMarker)")
-
-        total += expense.amount
+        printTotals(expenses)
     }
 
-    func printReport(expenses: [Expense], date: Date = Date()) {
-        var mealExpenses = 0
-        var total = 0
+    private func printReportHeader(date: Date) {
         print("Expense Report \(date)")
-        for expense in expenses {
-            doSomethingWithExpenses(expense, &mealExpenses, &total)
-        }
+    }
+
+    private func printTotals(_ expenses: [Expense]) {
+        let mealExpenses = expenses.reduce(0) { $0 + $1.getMealAmount() }
+        let total = expenses.reduce(0) { $0 + $1.amount }
         print("Meal Expenses: \(mealExpenses)")
         print("Total Expenses: \(total)")
     }
