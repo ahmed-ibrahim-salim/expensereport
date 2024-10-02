@@ -4,9 +4,11 @@ import Foundation
 // 2- Test will not be F.I.R.S.T ---> not repeatable ---> Date must be injected
 
 // 3- Code smells
-// switch case
+// conditional complexity
+// shotgun surgery -> adding lunch would need changes in a lot of places
+// switch case -> lack of polymorphisim
 // magic numbers
-// primitive obsession
+// primitive obsession -> lack of
 
 class ExpenseReport {
     func printReport(expenses: [Expense], date: Date = Date()) {
