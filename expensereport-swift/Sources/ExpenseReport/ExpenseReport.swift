@@ -8,7 +8,7 @@ import Foundation
 // shotgun surgery -> adding lunch would need changes in a lot of places
 // switch case -> lack of polymorphisim
 // magic numbers
-// primitive obsession -> lack of
+// primitive obsession -> lack of domain objects
 
 class ExpenseReport {
     func printReport(expenses: [Expense], date: Date = Date()) {
